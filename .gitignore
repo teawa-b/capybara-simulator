@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.webm
+promo/
+capture.mjs
+screenshot.js
+.playwright-mcp/
+.claude/
+.railway/
+.DS_Store
+models/*.zip
+*.png
