@@ -73,6 +73,66 @@
             stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
         }
         #btn-rain.active { background: rgba(255,255,255,0.3); color: rgba(255,255,255,0.95); }
+
+        /* ── ACTION BUTTONS (bottom bar) ── */
+        #action-buttons {
+            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+            display: none; gap: 12px; z-index: 50; pointer-events: all;
+        }
+        .action-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            border-radius: 20px;
+            padding: 8px 22px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 14px; font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .action-btn:hover {
+            background: rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.95);
+        }
+        .action-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ── FOOD MENU ── */
+        #food-menu {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) scale(0.9);
+            display: none; gap: 10px; z-index: 51; pointer-events: all;
+            opacity: 0; transition: opacity 0.2s, transform 0.2s;
+        }
+        #food-menu.visible { display: flex; opacity: 1; transform: translateX(-50%) scale(1); }
+        .food-item {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            border-radius: 16px;
+            padding: 8px 16px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 13px; font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .food-item:hover {
+            background: rgba(255,255,255,0.28);
+            color: rgba(255,255,255,0.95);
+        }
+        .food-item .emoji { font-size: 18px; }
+
+        @media (max-width: 600px) {
+            #action-buttons { bottom: 18px; gap: 8px; }
+            .action-btn { padding: 6px 14px; font-size: 12px; }
+            .action-btn svg { width: 14px; height: 14px; }
+            #food-menu { bottom: 64px; gap: 6px; }
+            .food-item { padding: 6px 12px; font-size: 12px; }
+        }
     </style>
     <meta name="x-pf-key" content="9cr2tMejZArKSAw1JAvQMmQBRVKwNCvBbLPRNAzBgYZV" />
     <script src="https://sdk.play.fun/latest"></script>
@@ -94,6 +154,25 @@
             <button id="btn-mute" title="Mute/Unmute"><svg viewBox="0 0 24 24"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg></button>
             <button id="btn-rain" title="Toggle rain"><svg viewBox="0 0 24 24"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="16" x2="8" y2="20"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="16" y1="16" x2="16" y2="20"/></svg></button>
         </div>
+    </div>
+    <div id="action-buttons">
+        <button class="action-btn" id="btn-food" title="Feed capybara">
+            <svg viewBox="0 0 24 24"><path d="M12 2C9.5 2 7 4.5 7 7c0 2 1 4 2 5h6c1-1 2-3 2-5 0-2.5-2.5-5-5-5z"/><rect x="11" y="12" width="2" height="5" rx="1"/><path d="M8 21h8"/></svg>
+            Food
+        </button>
+        <button class="action-btn" id="btn-play" title="Play with capybara">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+            Play
+        </button>
+        <button class="action-btn" id="btn-sleep" title="Let capybara sleep">
+            <svg viewBox="0 0 24 24"><path d="M2 12a10 10 0 0018-6 8 8 0 11-18 6z"/></svg>
+            Sleep
+        </button>
+    </div>
+    <div id="food-menu">
+        <button class="food-item" data-fruit="apple"><span class="emoji">🍎</span> Apple</button>
+        <button class="food-item" data-fruit="watermelon"><span class="emoji">🍉</span> Watermelon</button>
+        <button class="food-item" data-fruit="orange"><span class="emoji">🍊</span> Orange</button>
     </div>
     <div id="loading">
         <div class="title">Capybara Simulator</div>
@@ -217,6 +296,11 @@
                 this._bubbleCamRight = new THREE.Vector3();
                 this._bubbleCamFwd = new THREE.Vector3();
                 this._bubbleHeadPos = new THREE.Vector3();
+
+                // Food / heart interaction system
+                this._foodCube = null;
+                this._foodCubeAnim = null; // { startTime, startY, endY, duration }
+                this._heartParticles = []; // array of { mesh, startTime, velocity, ... }
 
                 this.setupLighting();
                 this.loadModels().then(() => this.buildScene());
@@ -766,6 +850,7 @@
                 document.getElementById('hud').style.display = 'flex';
                 this.setupPoints();
                 this.setupWeather();
+                this.setupActionButtons();
                 this.setupMarketCap();
                 console.log('Scene built!');
             }
@@ -1092,6 +1177,208 @@
                     this._rainAudio.play().catch(() => {});
                 }
                 document.getElementById('btn-rain').classList.toggle('active', goingRainy);
+            }
+
+            setupActionButtons() {
+                const foodBtn = document.getElementById('btn-food');
+                const foodMenu = document.getElementById('food-menu');
+                const playBtn = document.getElementById('btn-play');
+                const sleepBtn = document.getElementById('btn-sleep');
+
+                // Food button toggles food menu
+                foodBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    foodMenu.classList.toggle('visible');
+                });
+
+                // Close food menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!foodMenu.contains(e.target) && !foodBtn.contains(e.target)) {
+                        foodMenu.classList.remove('visible');
+                    }
+                });
+
+                // Food item clicks
+                document.querySelectorAll('.food-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const fruit = item.getAttribute('data-fruit');
+                        foodMenu.classList.remove('visible');
+                        this._dropFoodCube(fruit);
+                    });
+                });
+
+                // Play and Sleep buttons (not yet implemented — stopPropagation prevents hat cycling)
+                playBtn.addEventListener('click', (e) => { e.stopPropagation(); });
+                sleepBtn.addEventListener('click', (e) => { e.stopPropagation(); });
+
+                document.getElementById('action-buttons').style.display = 'flex';
+            }
+
+            _dropFoodCube(fruitType) {
+                // Don't stack multiple food drops
+                if (this._foodCube) return;
+
+                const colorMap = {
+                    apple: 0xe74c3c,
+                    watermelon: 0x2ecc71,
+                    orange: 0xf39c12,
+                };
+                const color = colorMap[fruitType] || 0xe74c3c;
+
+                // Create a small 3D cube
+                const geo = new THREE.BoxGeometry(0.22, 0.22, 0.22);
+                const mat = new THREE.MeshLambertMaterial({ color });
+                const cube = new THREE.Mesh(geo, mat);
+                cube.castShadow = true;
+
+                // Position above capybara's head
+                const headBone = this._capyStanding ? this._standingHeadBone : this._capyHeadBone;
+                let targetX = 0, targetZ = 0;
+                if (headBone) {
+                    const headPos = new THREE.Vector3();
+                    headBone.getWorldPosition(headPos);
+                    targetX = headPos.x;
+                    targetZ = headPos.z;
+                }
+
+                const startY = 3.5;
+                const endY = headBone ? 0.9 : 0.5;
+
+                cube.position.set(targetX, startY, targetZ);
+                this.scene.add(cube);
+                this._foodCube = cube;
+                this._foodCubeAnim = {
+                    startTime: this.clock.elapsedTime,
+                    startY,
+                    endY,
+                    targetX,
+                    targetZ,
+                    dropDuration: 0.6,
+                    pauseDuration: 0.35,
+                    shrinkDuration: 0.3,
+                    phase: 'drop', // 'drop' | 'pause' | 'shrink'
+                };
+            }
+
+            _spawnHearts() {
+                const headBone = this._capyStanding ? this._standingHeadBone : this._capyHeadBone;
+                if (!headBone) return;
+
+                const headPos = new THREE.Vector3();
+                headBone.getWorldPosition(headPos);
+
+                const heartCount = 6;
+                for (let i = 0; i < heartCount; i++) {
+                    // Heart shape using ShapeGeometry
+                    const shape = new THREE.Shape();
+                    const s = 0.06;
+                    shape.moveTo(0, s * 0.6);
+                    shape.bezierCurveTo(0, s * 1.4, -s * 1.2, s * 1.4, -s * 1.2, s * 0.6);
+                    shape.bezierCurveTo(-s * 1.2, -s * 0.2, 0, -s * 0.8, 0, -s * 1.4);
+                    shape.bezierCurveTo(0, -s * 0.8, s * 1.2, -s * 0.2, s * 1.2, s * 0.6);
+                    shape.bezierCurveTo(s * 1.2, s * 1.4, 0, s * 1.4, 0, s * 0.6);
+
+                    const geo = new THREE.ShapeGeometry(shape);
+                    const mat = new THREE.MeshBasicMaterial({
+                        color: 0xff4466,
+                        transparent: true,
+                        opacity: 1.0,
+                        side: THREE.DoubleSide,
+                        depthWrite: false,
+                    });
+                    const heart = new THREE.Mesh(geo, mat);
+
+                    // Spread horizontally around head
+                    const angle = (i / heartCount) * Math.PI * 2 + Math.random() * 0.4;
+                    const spread = 0.2 + Math.random() * 0.15;
+                    heart.position.set(
+                        headPos.x + Math.cos(angle) * spread,
+                        headPos.y + 0.4 + Math.random() * 0.2,
+                        headPos.z + Math.sin(angle) * spread
+                    );
+                    // Random scale variation
+                    const sc = 0.7 + Math.random() * 0.6;
+                    heart.scale.set(sc, sc, sc);
+
+                    this.scene.add(heart);
+                    this._heartParticles.push({
+                        mesh: heart,
+                        startTime: this.clock.elapsedTime + i * 0.06,
+                        velocityY: 0.6 + Math.random() * 0.4,
+                        velocityX: (Math.random() - 0.5) * 0.3,
+                        velocityZ: (Math.random() - 0.5) * 0.3,
+                        duration: 1.2 + Math.random() * 0.4,
+                    });
+                }
+            }
+
+            _updateFoodAndHearts(time, delta) {
+                // Animate food cube
+                if (this._foodCube && this._foodCubeAnim) {
+                    const a = this._foodCubeAnim;
+                    const elapsed = time - a.startTime;
+
+                    if (a.phase === 'drop') {
+                        const t = Math.min(elapsed / a.dropDuration, 1);
+                        // Ease-in (accelerate like gravity)
+                        const eased = t * t;
+                        this._foodCube.position.y = a.startY + (a.endY - a.startY) * eased;
+                        // Spin while falling
+                        this._foodCube.rotation.x = t * Math.PI * 2;
+                        this._foodCube.rotation.z = t * Math.PI * 1.5;
+                        if (t >= 1) {
+                            a.phase = 'pause';
+                            a.startTime = time;
+                        }
+                    } else if (a.phase === 'pause') {
+                        if (elapsed >= a.pauseDuration) {
+                            a.phase = 'shrink';
+                            a.startTime = time;
+                        }
+                    } else if (a.phase === 'shrink') {
+                        const t = Math.min(elapsed / a.shrinkDuration, 1);
+                        const scale = 1 - t;
+                        this._foodCube.scale.set(scale, scale, scale);
+                        if (t >= 1) {
+                            // Remove cube and spawn hearts
+                            this.scene.remove(this._foodCube);
+                            this._foodCube.geometry.dispose();
+                            this._foodCube.material.dispose();
+                            this._foodCube = null;
+                            this._foodCubeAnim = null;
+                            this._spawnHearts();
+                        }
+                    }
+                }
+
+                // Animate heart particles
+                for (let i = this._heartParticles.length - 1; i >= 0; i--) {
+                    const h = this._heartParticles[i];
+                    const elapsed = time - h.startTime;
+                    if (elapsed < 0) continue; // staggered start
+
+                    const t = elapsed / h.duration;
+                    if (t >= 1) {
+                        this.scene.remove(h.mesh);
+                        h.mesh.geometry.dispose();
+                        h.mesh.material.dispose();
+                        this._heartParticles.splice(i, 1);
+                        continue;
+                    }
+
+                    // Float upward and drift
+                    h.mesh.position.y += h.velocityY * delta;
+                    h.mesh.position.x += h.velocityX * delta;
+                    h.mesh.position.z += h.velocityZ * delta;
+
+                    // Fade out in second half
+                    h.mesh.material.opacity = t < 0.5 ? 1.0 : 1.0 - (t - 0.5) * 2.0;
+
+                    // Slight wobble and billboard toward camera
+                    h.mesh.lookAt(this.camera.position);
+                    h.mesh.rotation.z = Math.sin(elapsed * 4) * 0.15;
+                }
             }
 
             _updateWeather(delta, time) {
@@ -1547,6 +1834,9 @@
 
                 // Standing FX (runs AFTER weather so lighting values override rain when active)
                 if (this._standFXt > 0 || this._standFXTarget > 0) this._updateStandFX(delta);
+
+                // Food cube drop and heart particles
+                this._updateFoodAndHearts(time, delta);
 
                 this.controls.update();
                 this.renderer.render(this.scene, this.camera);
