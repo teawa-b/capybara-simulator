@@ -126,12 +126,43 @@
         }
         .food-item .emoji { font-size: 18px; }
 
+        /* ── PLAY MENU ── */
+        #play-menu {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) scale(0.9);
+            display: none; gap: 14px; z-index: 51; pointer-events: all;
+            opacity: 0; transition: opacity 0.2s, transform 0.2s;
+            justify-content: center; align-items: center;
+        }
+        #play-menu.visible { display: flex; opacity: 1; transform: translateX(-50%) scale(1); }
+        .game-item {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            border-radius: 16px;
+            width: 100px; height: 100px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 13px; font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 8px;
+        }
+        .game-item:hover {
+            background: rgba(255,255,255,0.28);
+            color: rgba(255,255,255,0.95);
+        }
+
         @media (max-width: 600px) {
             #action-buttons { bottom: 18px; gap: 8px; }
             .action-btn { padding: 6px 14px; font-size: 12px; }
             .action-btn svg { width: 14px; height: 14px; }
             #food-menu { bottom: 64px; gap: 6px; }
             .food-item { padding: 6px 12px; font-size: 12px; }
+            #play-menu { bottom: 64px; gap: 8px; }
+            .game-item { width: 80px; height: 80px; font-size: 11px; }
         }
     </style>
     <meta name="x-pf-key" content="9cr2tMejZArKSAw1JAvQMmQBRVKwNCvBbLPRNAzBgYZV" />
@@ -173,6 +204,11 @@
         <button class="food-item" data-fruit="apple"><span class="emoji">🍎</span> Apple</button>
         <button class="food-item" data-fruit="watermelon"><span class="emoji">🍉</span> Watermelon</button>
         <button class="food-item" data-fruit="orange"><span class="emoji">🍊</span> Orange</button>
+    </div>
+    <div id="play-menu">
+        <button class="game-item" data-game="walkies">Walkies</button>
+        <button class="game-item" data-game="cap-o-fetch">Cap-o-Fetch</button>
+        <button class="game-item" data-game="bath-time">Bath Time</button>
     </div>
     <div id="loading">
         <div class="title">Capybara Simulator</div>
@@ -1183,18 +1219,23 @@
                 const foodBtn = document.getElementById('btn-food');
                 const foodMenu = document.getElementById('food-menu');
                 const playBtn = document.getElementById('btn-play');
+                const playMenu = document.getElementById('play-menu');
                 const sleepBtn = document.getElementById('btn-sleep');
 
                 // Food button toggles food menu
                 foodBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     foodMenu.classList.toggle('visible');
+                    playMenu.classList.remove('visible');
                 });
 
-                // Close food menu when clicking outside
+                // Close menus when clicking outside
                 document.addEventListener('click', (e) => {
                     if (!foodMenu.contains(e.target) && !foodBtn.contains(e.target)) {
                         foodMenu.classList.remove('visible');
+                    }
+                    if (!playMenu.contains(e.target) && !playBtn.contains(e.target)) {
+                        playMenu.classList.remove('visible');
                     }
                 });
 
@@ -1208,8 +1249,20 @@
                     });
                 });
 
+                // Game item clicks
+                document.querySelectorAll('.game-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        playMenu.classList.remove('visible');
+                    });
+                });
+
                 // Play and Sleep buttons (not yet implemented — stopPropagation prevents hat cycling)
-                playBtn.addEventListener('click', (e) => { e.stopPropagation(); });
+                playBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    playMenu.classList.toggle('visible');
+                    foodMenu.classList.remove('visible');
+                });
                 sleepBtn.addEventListener('click', (e) => { e.stopPropagation(); });
 
                 document.getElementById('action-buttons').style.display = 'flex';
