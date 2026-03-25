@@ -1376,6 +1376,96 @@
             #fr-aura-bar-inner { width: 60px; }
         }
 
+        /* ── Game Hub Popup ── */
+        #fr-hub-popup {
+            display: none;
+            position: fixed;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.92), rgba(40, 20, 60, 0.92));
+            border: 2px solid rgba(150, 120, 255, 0.6);
+            border-radius: 16px;
+            padding: 16px 28px;
+            text-align: center;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            z-index: 220;
+            animation: fr-hub-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #fr-hub-popup.visible { display: block; }
+        @keyframes fr-hub-pop { from { transform: translateX(-50%) scale(0.7); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+        #fr-hub-icon { font-size: 36px; margin-bottom: 6px; }
+        #fr-hub-name { font-size: 18px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+        #fr-hub-desc { font-size: 12px; opacity: 0.7; margin-bottom: 10px; }
+        #fr-hub-join {
+            background: linear-gradient(135deg, #7c4dff, #aa66ff);
+            border: none; color: #fff; padding: 10px 28px;
+            border-radius: 10px; font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 0 15px rgba(124, 77, 255, 0.4);
+        }
+        #fr-hub-join:active { transform: scale(0.95); }
+
+        /* ── Mini-game HUD ── */
+        #fr-minigame-hud {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 10px 16px;
+            z-index: 220;
+            pointer-events: none;
+        }
+        #fr-minigame-hud.visible { display: flex; align-items: center; gap: 12px; }
+        #fr-mg-title {
+            font-size: 16px; font-weight: 800; color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        #fr-mg-score {
+            font-size: 20px; font-weight: 900; color: #ffdd44;
+            text-shadow: 0 0 10px rgba(255, 220, 60, 0.5);
+        }
+        #fr-mg-timer {
+            margin-left: auto;
+            font-size: 18px; font-weight: 700; color: #fff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+        #fr-mg-exit {
+            pointer-events: auto;
+            background: rgba(255, 60, 60, 0.7); border: 1px solid rgba(255,100,100,0.4);
+            color: #fff; padding: 6px 14px; border-radius: 8px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ── Cup Game UI ── */
+        #fr-cup-ui {
+            display: none;
+            position: fixed;
+            bottom: 100px; left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 225;
+        }
+        #fr-cup-ui.visible { display: block; }
+        #fr-cup-instruction {
+            color: #fff; font-size: 18px; font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            margin-bottom: 12px;
+        }
+        #fr-cup-buttons { display: flex; gap: 12px; justify-content: center; }
+        .fr-cup-btn {
+            background: linear-gradient(135deg, rgba(60, 40, 20, 0.9), rgba(100, 70, 30, 0.9));
+            border: 2px solid rgba(200, 160, 80, 0.5);
+            color: #ffe0a0; padding: 14px 24px;
+            border-radius: 12px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: transform 0.15s, border-color 0.15s;
+        }
+        .fr-cup-btn:active { transform: scale(0.92); }
+        .fr-cup-btn.correct { border-color: #44ff88; background: rgba(40, 120, 60, 0.8); color: #44ff88; }
+        .fr-cup-btn.wrong { border-color: #ff4444; background: rgba(120, 30, 30, 0.8); color: #ff6666; }
+
     </style>
     <meta name="x-pf-key" content="9cr2tMejZArKSAw1JAvQMmQBRVKwNCvBbLPRNAzBgYZV" />
     <script src="https://sdk.play.fun/latest"></script>
@@ -1401,19 +1491,19 @@
     <div id="action-buttons">
         <div class="action-wrap">
             <button class="action-btn" id="btn-food" title="Feed capybara">
-                <img src="Icons/fOOD CAPY.png" alt="Food">
+                <img src="Icons/fOOD%20CAPY.png" alt="Food">
             </button>
             <span class="btn-label">Food</span>
         </div>
         <div class="action-wrap">
             <button class="action-btn" id="btn-play" title="Play with capybara">
-                <img src="Icons/PLAY BUTTON CAPY.png" alt="Play">
+                <img src="Icons/PLAY%20BUTTON%20CAPY.png" alt="Play">
             </button>
             <span class="btn-label">Play</span>
         </div>
         <div class="action-wrap">
             <button class="action-btn" id="btn-sleep" title="Let capybara sleep">
-                <img src="Icons/sLEEP capy.png" alt="Sleep">
+                <img src="Icons/sLEEP%20capy.png" alt="Sleep">
             </button>
             <span class="btn-label">Sleep</span>
         </div>
@@ -1426,7 +1516,7 @@
         <div class="fr-title">Free Roam</div>
         <div class="fr-sub">entering the social zone...</div>
         <div class="fr-bar"><div class="fr-fill" id="fr-load-bar"></div></div>
-        <div class="fr-tip">tip: hats change your social powers</div>
+        <div class="fr-tip">tip: interact with NPCs to gain aura</div>
     </div>
     <div id="fr-hud">
         <div id="fr-aura-bar">
@@ -1453,6 +1543,29 @@
         <div id="fr-event-banner"></div>
         <div id="fr-outcome"></div>
         <div id="fr-peak-overlay"></div>
+        <!-- Game Hub Popup -->
+        <div id="fr-hub-popup">
+            <div id="fr-hub-icon"></div>
+            <div id="fr-hub-name"></div>
+            <div id="fr-hub-desc"></div>
+            <button id="fr-hub-join">JOIN GAME</button>
+        </div>
+        <!-- Mini-game HUD (replaces main HUD during games) -->
+        <div id="fr-minigame-hud">
+            <div id="fr-mg-title"></div>
+            <div id="fr-mg-score"></div>
+            <div id="fr-mg-timer"></div>
+            <button id="fr-mg-exit">← Leave Game</button>
+        </div>
+        <!-- Cup Game specific UI -->
+        <div id="fr-cup-ui">
+            <div id="fr-cup-instruction"></div>
+            <div id="fr-cup-buttons">
+                <button class="fr-cup-btn" data-cup="0">Cup 1</button>
+                <button class="fr-cup-btn" data-cup="1">Cup 2</button>
+                <button class="fr-cup-btn" data-cup="2">Cup 3</button>
+            </div>
+        </div>
     </div>
     <div id="sleep-overlay"></div>
     <div id="sleep-zzz">
@@ -1462,15 +1575,15 @@
     <div id="food-menu">
         <button class="food-item" data-fruit="apple">
             <span class="food-label">Apple</span>
-            <div class="food-box apple-bg"><img src="Icons/Fruit Images/Apple - red.png" alt="Apple"></div>
+            <div class="food-box apple-bg"><img src="Icons/Fruit%20Images/Apple%20-%20red.png" alt="Apple"></div>
         </button>
         <button class="food-item" data-fruit="watermelon">
             <span class="food-label">Watermelon</span>
-            <div class="food-box watermelon-bg"><img src="Icons/Fruit Images/Slice of Watermelon.png" alt="Watermelon"></div>
+            <div class="food-box watermelon-bg"><img src="Icons/Fruit%20Images/Slice%20of%20Watermelon.png" alt="Watermelon"></div>
         </button>
         <button class="food-item" data-fruit="orange">
             <span class="food-label">Orange</span>
-            <div class="food-box orange-bg"><img src="Icons/Fruit Images/Orange.png" alt="Orange"></div>
+            <div class="food-box orange-bg"><img src="Icons/Fruit%20Images/Orange.png" alt="Orange"></div>
         </button>
     </div>
     <div id="play-menu">
@@ -5267,12 +5380,10 @@
            FREE ROAM MODE — Social open-world with Aura system
            ═══════════════════════════════════════════════════════════ */
         class FreeRoamGame {
-            constructor(renderer, simScene, simModels, hatModels, currentHatIndex, onExit) {
+            constructor(renderer, simScene, simModels, onExit) {
                 this._renderer = renderer;
                 this._simScene = simScene;
                 this._simModels = simModels;
-                this._hatModels = hatModels;
-                this._currentHatIndex = currentHatIndex;
                 this._onExit = onExit;
                 this._clock = new THREE.Clock();
                 this._running = true;
@@ -5330,23 +5441,12 @@
                 this._interactTarget = null;
                 this._interactCooldown = 0;
 
-                // ── Hat modifiers ──
-                // Order matches hatFiles in loadModels: baseball, graduation, hardhat, pirate, tophat, wizard
-                this._hatMods = [
-                    { name: 'baseball',    flex: 0.1, vibe: 0.05, offer: 0, weird: 0, auraMult: 1.0, embarrassMult: 1.0 },
-                    { name: 'graduation',  flex: 0.0, vibe: 0.1,  offer: 0.1, weird: 0.05, auraMult: 1.2, embarrassMult: 0.9 },
-                    { name: 'hardhat',     flex: 0.05, vibe: 0,   offer: 0, weird: 0.1, auraMult: 1.0, embarrassMult: 0.5 },
-                    { name: 'pirate',      flex: 0.15, vibe: -0.05, offer: 0, weird: 0.15, auraMult: 1.1, embarrassMult: 0.8 },
-                    { name: 'tophat',      flex: 0.2, vibe: 0.1,  offer: 0.05, weird: -0.05, auraMult: 1.3, embarrassMult: 1.0 },
-                    { name: 'wizard',      flex: 0,   vibe: 0.15, offer: 0.05, weird: 0.2, auraMult: 1.1, embarrassMult: 0.7 },
-                ];
-
                 // ── Fake chat ──
                 this._chatTimer = 0;
                 this._chatMsgs = [
                     'lol what is happening', 'w aura fr', 'someone get this capy',
                     'bro thinks hes him', 'massive W', 'aura check passed',
-                    'npc behavior ngl', 'touch grass tbh', 'that hat goes crazy',
+                    'npc behavior ngl', 'touch grass tbh', 'this capy is built different',
                     'rip aura', 'homie got curved 💀', 'peak fiction',
                     'certified vibe', 'he just like me fr', 'L take',
                     'ayo?? 😭', 'not the bucket hat', 'crown energy',
@@ -5392,6 +5492,17 @@
                 // ── NPC target display ──
                 this._nearestNPCName = '';
                 this._nearestNPCPersonality = '';
+
+                // ── Mini-game hubs ──
+                this._gameHubs = [];
+                this._activeHub = null;
+                this._hubPopupVisible = false;
+
+                // ── Active mini-game state ──
+                this._miniGameActive = false;
+                this._miniGameType = null;
+                this._miniGameData = {};
+                this._miniGameScene = null;
 
                 this._scene = new THREE.Scene();
                 this._scene.background = new THREE.Color(0xd4c8a8);
@@ -5898,6 +6009,9 @@
                     { pos: new THREE.Vector3(-15, 0, -10), name: 'pond', radius: 6 },
                     { pos: this._chillSpot.clone(), name: 'bench', radius: 3 },
                 ];
+
+                // ── Game Hub Waypoints ──
+                this._buildGameHubs();
             }
 
             _createGrassTufts() {
@@ -5974,8 +6088,6 @@
                         this._playerWalkAction.paused = true;
                     }
 
-                    // Attach hat if player had one
-                    this._attachHat();
                     onLoad();
                 }, undefined, () => onLoad());
 
@@ -5988,33 +6100,6 @@
                         onLoad();
                     }, undefined, () => onLoad());
                 }
-            }
-
-            _attachHat() {
-                if (this._currentHatIndex < 0 || !this._hatModels || !this._hatModels[this._currentHatIndex]) return;
-                if (!this._playerModel) return;
-                const hat = this._hatModels[this._currentHatIndex].clone();
-                hat.traverse(c => {
-                    if (c.isMesh && c.material) {
-                        if (c.material.emissiveMap && !c.material.map) {
-                            c.material.map = c.material.emissiveMap;
-                            c.material.emissive.setScalar(0);
-                            c.material.emissiveMap = null;
-                            c.material.needsUpdate = true;
-                        }
-                    }
-                });
-                // Attach to head bone if found, otherwise fallback to model
-                if (this._headBone) {
-                    hat.position.set(0, 0.12, 0);
-                    hat.scale.setScalar(2.5);
-                    this._headBone.add(hat);
-                } else {
-                    hat.position.set(0, 0.65, 0.25);
-                    hat.scale.setScalar(0.8);
-                    this._playerModel.add(hat);
-                }
-                this._playerHat = hat;
             }
 
             _placeEnvironment() {
@@ -6336,9 +6421,6 @@
                 const prefs = this._npcPrefs[npc.personality];
                 let baseChance = prefs[action] || 0.5;
 
-                // Hat modifier
-                const hatMod = this._getHatMod();
-                baseChance += hatMod[action] || 0;
                 baseChance = Math.max(0.05, Math.min(0.98, baseChance));
 
                 // Peak mode bonus
@@ -6357,9 +6439,8 @@
                 this._interactCooldown = 1.5;
 
                 if (success) {
-                    const auraMult = hatMod.auraMult || 1.0;
                     const comboMult = 1 + this._combo * 0.3;
-                    let gain = Math.round((crit ? 15 : 8) * auraMult * comboMult);
+                    let gain = Math.round((crit ? 15 : 8) * comboMult);
                     if (this._peakMode) gain = Math.round(gain * 1.5);
                     this._changeAura(gain);
                     this._combo++;
@@ -6383,8 +6464,7 @@
 
                     if (this._peakMode || crit) npc.followPlayer = true;
                 } else {
-                    const embarrassMult = hatMod.embarrassMult || 1.0;
-                    const loss = Math.round(-6 * embarrassMult);
+                    const loss = -6;
                     this._changeAura(loss);
                     this._combo = 0;
                     this._comboTimer = 0;
@@ -6402,13 +6482,6 @@
                     this._addChatMsg(this._randomChatName(), 'homie got curved 💀');
                     if (Math.random() < 0.4) setTimeout(() => { if (!this._disposed) this._addChatMsg(this._randomChatName(), 'rip aura'); }, 800);
                 }
-            }
-
-            _getHatMod() {
-                if (this._currentHatIndex >= 0 && this._currentHatIndex < this._hatMods.length) {
-                    return this._hatMods[this._currentHatIndex];
-                }
-                return { flex: 0, vibe: 0, offer: 0, weird: 0, auraMult: 1.0, embarrassMult: 1.0 };
             }
 
             // ── AURA ──
@@ -6492,7 +6565,7 @@
             // ── CHAOS EVENTS ──
             _startChaosEvent() {
                 this._chaosActive = true;
-                const types = ['croc_chase', 'rain_of_hats', 'dance_off'];
+                const types = ['croc_chase', 'rain_of_hats', 'orb_collect', 'hot_potato', 'target_dash'];
                 this._chaosType = types[Math.floor(Math.random() * types.length)];
                 this._chaosData = { timer: 0, duration: 6 };
                 this._sfxChaos();
@@ -6501,8 +6574,10 @@
 
                 const banners = {
                     croc_chase: '🐊 CROC CHASE! RUN!',
-                    rain_of_hats: '🎩 HAT RAIN! Stay still for bonus!',
-                    dance_off: '🕺 DANCE OFF! Move to the beat!',
+                    rain_of_hats: '🎩 HAT RAIN! Catch the hats!',
+                    orb_collect: '✨ ORB FRENZY! Grab them all!',
+                    hot_potato: '💣 HOT POTATO! Pass it quick!',
+                    target_dash: '🎯 TARGET DASH! Hit the marks!',
                 };
                 const banner = document.getElementById('fr-event-banner');
                 banner.textContent = banners[this._chaosType] || '⚡ CHAOS!';
@@ -6540,7 +6615,8 @@
 
                 if (this._chaosType === 'rain_of_hats') {
                     this._chaosData.hats = [];
-                    this._chaosData.duration = 7;
+                    this._chaosData.collected = 0;
+                    this._chaosData.duration = 9;
                     const colors = [0xff4444, 0x4444ff, 0x44ff44, 0xffaa00, 0xff44ff, 0x44ffff, 0xffdd00, 0xff8844];
                     for (let h = 0; h < 25; h++) {
                         const hatGeo = new THREE.CylinderGeometry(0.25, 0.35, 0.2, 8);
@@ -6564,37 +6640,120 @@
                     }
                 }
 
-                if (this._chaosType === 'dance_off') {
-                    this._chaosData.duration = 7;
-                    // Disco spotlights
-                    const disco = new THREE.PointLight(0xff00ff, 4, 18);
-                    disco.position.set(this._playerPos.x, 7, this._playerPos.z);
-                    this._scene.add(disco);
-                    this._chaosData.disco = disco;
-                    // Second light
-                    const disco2 = new THREE.PointLight(0x00ffff, 3, 15);
-                    disco2.position.set(this._playerPos.x + 3, 5, this._playerPos.z - 2);
-                    this._scene.add(disco2);
-                    this._chaosData.disco2 = disco2;
-                    // Spark ring
-                    this._chaosData.sparks = [];
-                    const sparkGeo = new THREE.SphereGeometry(0.15, 6, 6);
-                    const sparkColors = [0xff00ff, 0x00ffff, 0xffff00, 0xff4400, 0x00ff88, 0xff0088, 0x8800ff, 0x00ffaa];
-                    for (let s = 0; s < 12; s++) {
-                        const sMat = new THREE.MeshBasicMaterial({ color: sparkColors[s % sparkColors.length] });
-                        const spark = new THREE.Mesh(sparkGeo, sMat);
-                        this._scene.add(spark);
-                        this._chaosData.sparks.push(spark);
+                if (this._chaosType === 'orb_collect') {
+                    this._chaosData.orbs = [];
+                    this._chaosData.collected = 0;
+                    this._chaosData.duration = 10;
+                    const orbGeo = new THREE.SphereGeometry(0.35, 12, 12);
+                    for (let i = 0; i < 18; i++) {
+                        const hue = 0.1 + Math.random() * 0.15;
+                        const orbMat = new THREE.MeshStandardMaterial({
+                            color: new THREE.Color().setHSL(hue, 1, 0.6),
+                            emissive: new THREE.Color().setHSL(hue, 1, 0.3),
+                            emissiveIntensity: 1.5,
+                            transparent: true, opacity: 0.9
+                        });
+                        const orb = new THREE.Mesh(orbGeo, orbMat);
+                        const angle = Math.random() * Math.PI * 2;
+                        const radius = 4 + Math.random() * 12;
+                        orb.position.set(
+                            this._playerPos.x + Math.cos(angle) * radius,
+                            1.0 + Math.random() * 1.5,
+                            this._playerPos.z + Math.sin(angle) * radius
+                        );
+                        orb.userData.baseY = orb.position.y;
+                        orb.userData.phase = Math.random() * Math.PI * 2;
+                        orb.castShadow = true;
+                        // Glow ring
+                        const ringGeo = new THREE.RingGeometry(0.5, 0.7, 16);
+                        const ringMat = new THREE.MeshBasicMaterial({ color: 0xffdd44, transparent: true, opacity: 0.3, side: THREE.DoubleSide });
+                        const ring = new THREE.Mesh(ringGeo, ringMat);
+                        ring.rotation.x = -Math.PI / 2;
+                        ring.position.y = -orb.userData.baseY + 0.05;
+                        orb.add(ring);
+                        this._scene.add(orb);
+                        this._chaosData.orbs.push(orb);
                     }
-                    // Dance floor disc
-                    const floorGeo = new THREE.CircleGeometry(4, 24);
-                    floorGeo.rotateX(-Math.PI / 2);
-                    const floorMat = new THREE.MeshBasicMaterial({ color: 0x220033, transparent: true, opacity: 0.4 });
-                    const floor = new THREE.Mesh(floorGeo, floorMat);
-                    floor.position.set(this._playerPos.x, 0.03, this._playerPos.z);
-                    this._scene.add(floor);
-                    this._chaosData.floor = floor;
                 }
+
+                if (this._chaosType === 'hot_potato') {
+                    this._chaosData.duration = 12;
+                    this._chaosData.passes = 0;
+                    this._chaosData.passesNeeded = 3;
+                    this._chaosData.holder = 'player';
+                    this._chaosData.fuseTimer = 4.0;
+                    this._chaosData.fuseDuration = 4.0;
+                    // Bomb mesh
+                    const bombGroup = new THREE.Group();
+                    const bombGeo = new THREE.SphereGeometry(0.4, 12, 12);
+                    const bombMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.3, metalness: 0.6 });
+                    const bomb = new THREE.Mesh(bombGeo, bombMat);
+                    bombGroup.add(bomb);
+                    // Fuse spark
+                    const sparkGeo = new THREE.SphereGeometry(0.12, 8, 8);
+                    const sparkMat = new THREE.MeshBasicMaterial({ color: 0xff4400 });
+                    const spark = new THREE.Mesh(sparkGeo, sparkMat);
+                    spark.position.y = 0.45;
+                    bombGroup.add(spark);
+                    this._chaosData.spark = spark;
+                    // Danger glow
+                    const glow = new THREE.PointLight(0xff4400, 2, 6);
+                    glow.position.y = 0.3;
+                    bombGroup.add(glow);
+                    this._chaosData.bombGlow = glow;
+                    bombGroup.position.copy(this._playerPos).add(new THREE.Vector3(0, 0.8, 0));
+                    this._scene.add(bombGroup);
+                    this._chaosData.bomb = bombGroup;
+                    this._addChatMsg('system', '💣 Get near an NPC to pass the bomb!');
+                }
+
+                if (this._chaosType === 'target_dash') {
+                    this._chaosData.targets = [];
+                    this._chaosData.score = 0;
+                    this._chaosData.totalTargets = 0;
+                    this._chaosData.duration = 12;
+                    this._chaosData.spawnTimer = 0;
+                    this._chaosData.spawnInterval = 1.8;
+                    // Spawn first target immediately
+                    this._spawnDashTarget();
+                }
+            }
+
+            _spawnDashTarget() {
+                const angle = Math.random() * Math.PI * 2;
+                const radius = 5 + Math.random() * 8;
+                const targetGroup = new THREE.Group();
+                // Glowing disc on the ground
+                const discGeo = new THREE.CircleGeometry(1.2, 20);
+                discGeo.rotateX(-Math.PI / 2);
+                const discMat = new THREE.MeshBasicMaterial({ color: 0x44ffaa, transparent: true, opacity: 0.6 });
+                const disc = new THREE.Mesh(discGeo, discMat);
+                disc.position.y = 0.05;
+                targetGroup.add(disc);
+                // Pillar of light
+                const pillarGeo = new THREE.CylinderGeometry(0.15, 0.5, 4, 8, 1, true);
+                const pillarMat = new THREE.MeshBasicMaterial({ color: 0x44ffaa, transparent: true, opacity: 0.25, side: THREE.DoubleSide });
+                const pillar = new THREE.Mesh(pillarGeo, pillarMat);
+                pillar.position.y = 2;
+                targetGroup.add(pillar);
+                // Floating diamond indicator
+                const diamondGeo = new THREE.OctahedronGeometry(0.3, 0);
+                const diamondMat = new THREE.MeshStandardMaterial({ color: 0x44ffaa, emissive: 0x22cc66, emissiveIntensity: 1.0 });
+                const diamond = new THREE.Mesh(diamondGeo, diamondMat);
+                diamond.position.y = 1.5;
+                targetGroup.add(diamond);
+                targetGroup.userData.diamond = diamond;
+                targetGroup.userData.disc = disc;
+                targetGroup.userData.lifetime = 3.5 + Math.random() * 1.5;
+                targetGroup.userData.age = 0;
+                targetGroup.position.set(
+                    this._playerPos.x + Math.cos(angle) * radius,
+                    0,
+                    this._playerPos.z + Math.sin(angle) * radius
+                );
+                this._scene.add(targetGroup);
+                this._chaosData.targets.push(targetGroup);
+                this._chaosData.totalTargets++;
             }
 
             _updateChaos(delta) {
@@ -6632,62 +6791,238 @@
 
                 if (this._chaosType === 'rain_of_hats') {
                     if (this._chaosData.hats) {
-                        for (const hat of this._chaosData.hats) {
-                            if (hat.userData.landed) continue;
-                            hat.position.y -= hat.userData.fallSpeed * delta;
-                            hat.rotation.y += hat.userData.spinSpeed * delta;
-                            hat.rotation.x += delta * 1.5;
-                            if (hat.position.y < 0.2) {
-                                hat.position.y = 0.2;
-                                hat.userData.landed = true;
-                                // Landing dust
-                                this._spawnParticleBurst(hat.position.clone(), 0xccbb88, 3, 0.5);
+                        const toRemove = [];
+                        for (let i = 0; i < this._chaosData.hats.length; i++) {
+                            const hat = this._chaosData.hats[i];
+                            if (hat.userData.collected) continue;
+                            if (!hat.userData.landed) {
+                                hat.position.y -= hat.userData.fallSpeed * delta;
+                                hat.rotation.y += hat.userData.spinSpeed * delta;
+                                hat.rotation.x += delta * 1.5;
+                                if (hat.position.y < 0.2) {
+                                    hat.position.y = 0.2;
+                                    hat.userData.landed = true;
+                                    this._spawnParticleBurst(hat.position.clone(), 0xccbb88, 3, 0.5);
+                                }
+                            }
+                            // Collect hat if player is close enough
+                            const dx = hat.position.x - this._playerPos.x;
+                            const dz = hat.position.z - this._playerPos.z;
+                            const dist = Math.sqrt(dx * dx + dz * dz);
+                            if (dist < 1.8) {
+                                hat.userData.collected = true;
+                                this._chaosData.collected++;
+                                const gain = 3;
+                                this._changeAura(gain);
+                                this._spawnParticleBurst(hat.position.clone(), 0xffdd00, 8, 1.5);
+                                this._sfxSuccess();
+                                this._showOutcome('🎩 +' + gain + ' (' + this._chaosData.collected + ' caught)');
+                                // Shrink & fly up animation
+                                hat.userData.flyUp = true;
+                                hat.userData.flySpeed = 4 + Math.random() * 2;
+                            }
+                            // Fly-up animation for collected hats
+                            if (hat.userData.flyUp) {
+                                hat.position.y += hat.userData.flySpeed * delta;
+                                hat.scale.multiplyScalar(0.95);
+                                if (hat.scale.x < 0.05) toRemove.push(i);
                             }
                         }
+                        // Remove fully collected hats
+                        for (let r = toRemove.length - 1; r >= 0; r--) {
+                            const hat = this._chaosData.hats[toRemove[r]];
+                            this._scene.remove(hat);
+                            hat.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
+                            this._chaosData.hats.splice(toRemove[r], 1);
+                        }
                     }
-                    const isStill = Math.abs(this._joyX) < 0.1 && Math.abs(this._joyZ) < 0.1;
-                    if (isStill && this._chaosData.timer > 2 && !this._chaosData.bonusGiven) {
-                        this._chaosData.bonusGiven = true;
-                        this._changeAura(10);
-                        this._showOutcome('🎩 Hat Collector! +10');
+                    // Bonus for collecting lots of hats
+                    if (this._chaosData.collected >= 15 && !this._chaosData.megaBonus) {
+                        this._chaosData.megaBonus = true;
+                        this._changeAura(15);
+                        this._showOutcome('👑 HAT MASTER! +15 Bonus');
+                        this._shakeCamera(0.2, 0.3);
+                        this._addChatMsg(this._randomChatName(), 'CATCHING EVERY HAT 🎩🔥');
                     }
                 }
 
-                if (this._chaosType === 'dance_off') {
+                // ── ORB COLLECT ──
+                if (this._chaosType === 'orb_collect' && this._chaosData.orbs) {
                     const t = this._chaosData.timer;
-                    if (this._chaosData.disco) {
-                        const hue = (t * 0.4) % 1;
-                        this._chaosData.disco.color.setHSL(hue, 1, 0.5);
-                        this._chaosData.disco.position.set(this._playerPos.x, 7, this._playerPos.z);
-                        this._chaosData.disco.intensity = 3 + Math.sin(t * 6) * 2;
-                    }
-                    if (this._chaosData.disco2) {
-                        this._chaosData.disco2.color.setHSL(((t * 0.4) + 0.5) % 1, 1, 0.5);
-                        this._chaosData.disco2.position.set(this._playerPos.x + Math.cos(t * 2) * 3, 5, this._playerPos.z + Math.sin(t * 2) * 3);
-                    }
-                    if (this._chaosData.sparks) {
-                        for (let s = 0; s < this._chaosData.sparks.length; s++) {
-                            const angle = (s / this._chaosData.sparks.length) * Math.PI * 2 + t * 3;
-                            const r = 2.5 + Math.sin(t * 2 + s) * 0.5;
-                            this._chaosData.sparks[s].position.set(
-                                this._playerPos.x + Math.cos(angle) * r,
-                                0.5 + Math.sin(t * 5 + s) * 0.8,
-                                this._playerPos.z + Math.sin(angle) * r
-                            );
-                            const sparkScale = 0.8 + Math.sin(t * 8 + s * 2) * 0.3;
-                            this._chaosData.sparks[s].scale.setScalar(sparkScale);
+                    const toRemove = [];
+                    for (let i = 0; i < this._chaosData.orbs.length; i++) {
+                        const orb = this._chaosData.orbs[i];
+                        // Bob up and down
+                        orb.position.y = orb.userData.baseY + Math.sin(t * 3 + orb.userData.phase) * 0.4;
+                        // Spin
+                        orb.rotation.y += delta * 2;
+                        // Pulse scale
+                        orb.scale.setScalar(1 + Math.sin(t * 5 + orb.userData.phase) * 0.15);
+                        // Check player proximity
+                        const dx = orb.position.x - this._playerPos.x;
+                        const dz = orb.position.z - this._playerPos.z;
+                        const dist = Math.sqrt(dx * dx + dz * dz);
+                        if (dist < 1.6) {
+                            toRemove.push(i);
+                            this._chaosData.collected++;
+                            this._changeAura(3);
+                            this._spawnParticleBurst(orb.position.clone(), 0xffdd44, 12, 2.0);
+                            this._sfxSuccess();
+                            if (this._chaosData.collected % 5 === 0) {
+                                this._showOutcome('✨ ' + this._chaosData.collected + ' orbs!');
+                                this._shakeCamera(0.1, 0.15);
+                            }
                         }
                     }
-                    // Beat-based shake
-                    const beat = Math.sin(t * Math.PI * 2) > 0.9;
-                    if (beat && !this._chaosData._lastBeat) this._shakeCamera(0.06, 0.1);
-                    this._chaosData._lastBeat = beat;
+                    for (let r = toRemove.length - 1; r >= 0; r--) {
+                        const orb = this._chaosData.orbs[toRemove[r]];
+                        this._scene.remove(orb);
+                        orb.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
+                        this._chaosData.orbs.splice(toRemove[r], 1);
+                    }
+                    // All orbs collected early = mega bonus
+                    if (this._chaosData.orbs.length === 0 && !this._chaosData.perfectBonus) {
+                        this._chaosData.perfectBonus = true;
+                        this._changeAura(20);
+                        this._showOutcome('🌟 PERFECT! All orbs! +20');
+                        this._shakeCamera(0.3, 0.4);
+                        this._addChatMsg(this._randomChatName(), 'COLLECTED EVERY SINGLE ORB 💫');
+                        this._endChaos();
+                        return;
+                    }
+                }
 
-                    const moving = Math.abs(this._joyX) > 0.3 || Math.abs(this._joyZ) > 0.3;
-                    if (moving && !this._chaosData.danceBonus && t > 1.5) {
-                        this._chaosData.danceBonus = true;
-                        this._changeAura(8);
-                        this._showOutcome('🕺 Nice Moves! +8');
+                // ── HOT POTATO ──
+                if (this._chaosType === 'hot_potato' && this._chaosData.bomb) {
+                    const bomb = this._chaosData.bomb;
+                    // Fuse timer ticks down
+                    this._chaosData.fuseTimer -= delta;
+                    const fuseRatio = Math.max(0, this._chaosData.fuseTimer / this._chaosData.fuseDuration);
+                    // Bomb visual urgency
+                    const pulse = Math.sin(this._chaosData.timer * (8 + (1 - fuseRatio) * 20));
+                    if (this._chaosData.spark) {
+                        this._chaosData.spark.scale.setScalar(0.8 + pulse * 0.5);
+                        const urgentColor = new THREE.Color().lerpColors(
+                            new THREE.Color(0xff8800), new THREE.Color(0xff0000), 1 - fuseRatio
+                        );
+                        this._chaosData.spark.material.color.copy(urgentColor);
+                    }
+                    if (this._chaosData.bombGlow) {
+                        this._chaosData.bombGlow.intensity = 2 + (1 - fuseRatio) * 4;
+                        this._chaosData.bombGlow.color.setHSL(fuseRatio * 0.08, 1, 0.5);
+                    }
+                    // Camera shake increases as fuse runs out
+                    if (fuseRatio < 0.3) this._shakeCamera(0.05 * (1 - fuseRatio), 0.1);
+
+                    if (this._chaosData.holder === 'player') {
+                        // Bomb follows player
+                        bomb.position.lerp(this._playerPos.clone().add(new THREE.Vector3(0, 1.2, 0)), delta * 10);
+                        // Check proximity to NPCs to pass
+                        let nearestNPC = null;
+                        let nearestDist = Infinity;
+                        for (const npc of this._npcs) {
+                            const dx = npc.group.position.x - this._playerPos.x;
+                            const dz = npc.group.position.z - this._playerPos.z;
+                            const d = Math.sqrt(dx * dx + dz * dz);
+                            if (d < nearestDist) { nearestDist = d; nearestNPC = npc; }
+                        }
+                        if (nearestDist < 2.5 && nearestNPC) {
+                            // Pass the bomb!
+                            this._chaosData.holder = 'npc';
+                            this._chaosData.holderNPC = nearestNPC;
+                            this._chaosData.npcHoldTimer = 1.5 + Math.random() * 1.0;
+                            this._chaosData.passes++;
+                            this._changeAura(5);
+                            this._sfxInteract();
+                            this._spawnParticleBurst(bomb.position.clone(), 0xff8800, 8, 1.5);
+                            this._showOutcome('🏃 Passed! (' + this._chaosData.passes + '/' + this._chaosData.passesNeeded + ')');
+                            this._addChatMsg(this._randomChatName(), 'PASS IT PASS IT 💣');
+                            // Reset fuse each pass but shorter
+                            this._chaosData.fuseDuration = Math.max(2.0, 4.0 - this._chaosData.passes * 0.5);
+                            this._chaosData.fuseTimer = this._chaosData.fuseDuration;
+                            if (this._chaosData.passes >= this._chaosData.passesNeeded) {
+                                this._changeAura(15);
+                                this._showOutcome('💣 DEFUSED! +15 Aura');
+                                this._shakeCamera(0.25, 0.4);
+                                this._addChatMsg(this._randomChatName(), 'BOMB SQUAD W 🔥');
+                                this._endChaos();
+                                return;
+                            }
+                        }
+                    } else if (this._chaosData.holder === 'npc' && this._chaosData.holderNPC) {
+                        // Bomb follows NPC
+                        const npcPos = this._chaosData.holderNPC.group.position.clone().add(new THREE.Vector3(0, 1.2, 0));
+                        bomb.position.lerp(npcPos, delta * 10);
+                        this._chaosData.npcHoldTimer -= delta;
+                        if (this._chaosData.npcHoldTimer <= 0) {
+                            // NPC throws it back!
+                            this._chaosData.holder = 'player';
+                            this._chaosData.holderNPC = null;
+                            this._addChatMsg('system', '💣 Thrown back to you!');
+                            this._sfxFail();
+                        }
+                    }
+                    // Bomb explodes if fuse runs out
+                    if (this._chaosData.fuseTimer <= 0) {
+                        this._changeAura(-15);
+                        this._showOutcome('💥 BOOM! -15 Aura');
+                        this._shakeCamera(0.5, 0.6);
+                        this._spawnParticleBurst(bomb.position.clone(), 0xff4400, 25, 4);
+                        this._spawnParticleBurst(bomb.position.clone(), 0xffaa00, 15, 3);
+                        this._addChatMsg(this._randomChatName(), 'IT BLEW UP 💀💀');
+                        this._endChaos();
+                        return;
+                    }
+                }
+
+                // ── TARGET DASH ──
+                if (this._chaosType === 'target_dash') {
+                    const t = this._chaosData.timer;
+                    // Spawn new targets periodically
+                    this._chaosData.spawnTimer += delta;
+                    if (this._chaosData.spawnTimer >= this._chaosData.spawnInterval && this._chaosData.targets.length < 4) {
+                        this._chaosData.spawnTimer = 0;
+                        this._chaosData.spawnInterval = Math.max(1.0, 1.8 - t * 0.06);
+                        this._spawnDashTarget();
+                    }
+                    // Update existing targets
+                    const toRemove = [];
+                    for (let i = 0; i < this._chaosData.targets.length; i++) {
+                        const target = this._chaosData.targets[i];
+                        target.userData.age += delta;
+                        // Diamond spin
+                        if (target.userData.diamond) target.userData.diamond.rotation.y += delta * 4;
+                        // Fade out as lifetime runs out
+                        const lifeRatio = 1 - (target.userData.age / target.userData.lifetime);
+                        if (target.userData.disc) target.userData.disc.material.opacity = 0.6 * lifeRatio;
+                        // Scale pulse
+                        const pulse = 1 + Math.sin(target.userData.age * 6) * 0.1;
+                        target.scale.setScalar(pulse);
+                        // Check player proximity
+                        const dx = target.position.x - this._playerPos.x;
+                        const dz = target.position.z - this._playerPos.z;
+                        const dist = Math.sqrt(dx * dx + dz * dz);
+                        if (dist < 1.8) {
+                            // Hit!
+                            toRemove.push(i);
+                            this._chaosData.score++;
+                            const gain = 4 + Math.min(6, this._chaosData.score);
+                            this._changeAura(gain);
+                            this._spawnParticleBurst(target.position.clone().add(new THREE.Vector3(0, 1, 0)), 0x44ffaa, 15, 2.5);
+                            this._sfxSuccess();
+                            this._showOutcome('🎯 HIT! +' + gain + ' (' + this._chaosData.score + ' targets)');
+                            this._shakeCamera(0.08, 0.15);
+                        } else if (target.userData.age >= target.userData.lifetime) {
+                            // Expired
+                            toRemove.push(i);
+                            this._spawnParticleBurst(target.position.clone().add(new THREE.Vector3(0, 0.5, 0)), 0xff4444, 5, 1);
+                        }
+                    }
+                    for (let r = toRemove.length - 1; r >= 0; r--) {
+                        const target = this._chaosData.targets[toRemove[r]];
+                        this._scene.remove(target);
+                        target.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
+                        this._chaosData.targets.splice(toRemove[r], 1);
                     }
                 }
 
@@ -6696,6 +7031,31 @@
                         this._changeAura(15);
                         this._showOutcome('🏃 Escaped! +15 Aura');
                         this._addChatMsg(this._randomChatName(), 'CLUTCH ESCAPE W 🔥');
+                    }
+                    if (this._chaosType === 'rain_of_hats') {
+                        const c = this._chaosData.collected || 0;
+                        if (c > 0) {
+                            this._addChatMsg(this._randomChatName(), 'caught ' + c + ' hats total 🎩');
+                        }
+                    }
+                    if (this._chaosType === 'orb_collect') {
+                        const c = this._chaosData.collected || 0;
+                        if (c >= 10) {
+                            this._changeAura(10);
+                            this._showOutcome('✨ Orb Frenzy Done! +10 bonus');
+                            this._addChatMsg(this._randomChatName(), c + ' orbs collected W ✨');
+                        }
+                    }
+                    if (this._chaosType === 'target_dash') {
+                        const s = this._chaosData.score || 0;
+                        if (s >= 5) {
+                            this._changeAura(12);
+                            this._showOutcome('🎯 Sharpshooter! +12 bonus');
+                        } else if (s >= 3) {
+                            this._changeAura(6);
+                            this._showOutcome('🎯 Decent run! +6');
+                        }
+                        this._addChatMsg(this._randomChatName(), 'hit ' + s + '/' + (this._chaosData.totalTargets || 0) + ' targets 🎯');
                     }
                     this._endChaos();
                 }
@@ -6715,18 +7075,20 @@
                         hat.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
                     }
                 }
-                if (this._chaosData.disco) this._scene.remove(this._chaosData.disco);
-                if (this._chaosData.disco2) this._scene.remove(this._chaosData.disco2);
-                if (this._chaosData.floor) {
-                    this._scene.remove(this._chaosData.floor);
-                    this._chaosData.floor.geometry.dispose();
-                    this._chaosData.floor.material.dispose();
+                if (this._chaosData.orbs) {
+                    for (const orb of this._chaosData.orbs) {
+                        this._scene.remove(orb);
+                        orb.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
+                    }
                 }
-                if (this._chaosData.sparks) {
-                    for (const s of this._chaosData.sparks) {
-                        this._scene.remove(s);
-                        s.geometry.dispose();
-                        s.material.dispose();
+                if (this._chaosData.bomb) {
+                    this._scene.remove(this._chaosData.bomb);
+                    this._chaosData.bomb.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
+                }
+                if (this._chaosData.targets) {
+                    for (const t of this._chaosData.targets) {
+                        this._scene.remove(t);
+                        t.traverse(c => { if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); });
                     }
                 }
                 this._chaosData = {};
@@ -9222,8 +9584,6 @@
                     this.renderer,
                     this.scene,
                     this.models,
-                    this.hatModels,
-                    this.currentHatIndex,
                     () => this._stopFreeRoam()
                 );
             }
