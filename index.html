@@ -3,7 +3,7 @@
 <head>
 <meta name="x-ogp-key" content="d3623dc6-3cfc-49fa-b771-3bbb8d52e4a1" id="ogp-key-meta" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Capybara Simulator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@
 
         /* ── ACTION BUTTONS (bottom bar) ── */
         #action-buttons {
-            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             display: none; gap: 18px; z-index: 50; pointer-events: all;
         }
         .action-wrap {
@@ -118,7 +118,7 @@
 
         /* ── FOOD MENU ── */
         #food-menu {
-            position: fixed; bottom: 190px; left: 50%; transform: translateX(-50%) scale(0.9);
+            position: fixed; bottom: calc(190px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%) scale(0.9);
             display: none; gap: 18px; z-index: 51; pointer-events: all;
             opacity: 0; transition: opacity 0.25s cubic-bezier(.34,1.56,.64,1), transform 0.25s cubic-bezier(.34,1.56,.64,1);
         }
@@ -165,7 +165,7 @@
 
         /* ── PLAY MENU ── */
         #play-menu {
-            position: fixed; bottom: 190px; left: 50%; transform: translateX(-50%) scale(0.9);
+            position: fixed; bottom: calc(190px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%) scale(0.9);
             display: none; gap: 14px; z-index: 51; pointer-events: all;
             opacity: 0; transition: opacity 0.25s cubic-bezier(.34,1.56,.64,1), transform 0.25s cubic-bezier(.34,1.56,.64,1);
             justify-content: center; align-items: center;
@@ -200,14 +200,23 @@
         }
 
         @media (max-width: 600px) {
-            #action-buttons { bottom: 18px; gap: 10px; }
-            .action-btn { width: 90px; height: 90px; border-radius: 26px; }
-            .btn-label { font-size: 12px; }
-            #food-menu { bottom: 150px; gap: 12px; }
-            .food-box { width: 80px; height: 80px; }
-            .food-item .food-label { font-size: 11px; }
-            #play-menu { bottom: 150px; gap: 8px; }
-            .game-item { width: 80px; height: 80px; font-size: 11px; }
+            #action-buttons { bottom: calc(14px + env(safe-area-inset-bottom, 0px)); gap: 10px; }
+            .action-btn { width: 76px; height: 76px; border-radius: 22px; }
+            .btn-label { font-size: 11px; }
+            #food-menu { bottom: calc(130px + env(safe-area-inset-bottom, 0px)); gap: 10px; }
+            .food-box { width: 70px; height: 70px; border-radius: 22px; }
+            .food-item .food-label { font-size: 10px; }
+            #play-menu { bottom: calc(130px + env(safe-area-inset-bottom, 0px)); gap: 8px; }
+            .game-item { width: 70px; height: 70px; font-size: 11px; border-radius: 22px; }
+        }
+        @media (max-width: 380px) {
+            #action-buttons { gap: 8px; }
+            .action-btn { width: 66px; height: 66px; border-radius: 20px; }
+            .btn-label { font-size: 10px; }
+            #food-menu { bottom: calc(115px + env(safe-area-inset-bottom, 0px)); gap: 8px; }
+            .food-box { width: 62px; height: 62px; border-radius: 18px; }
+            #play-menu { bottom: calc(115px + env(safe-area-inset-bottom, 0px)); gap: 6px; }
+            .game-item { width: 62px; height: 62px; font-size: 10px; border-radius: 18px; }
         }
 
         /* ── SLEEP OVERLAY ── */
@@ -254,7 +263,7 @@
 
         /* ── FREE MODE BUTTON ── */
         #freemode-bar {
-            position: fixed; bottom: 170px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: calc(170px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             z-index: 50; pointer-events: all; display: none;
         }
         #btn-freemode {
@@ -282,8 +291,12 @@
             color: rgba(200, 255, 220, 0.95);
         }
         @media (max-width: 600px) {
-            #freemode-bar { bottom: 140px; }
+            #freemode-bar { bottom: calc(120px + env(safe-area-inset-bottom, 0px)); }
             #btn-freemode { font-size: 11px; padding: 6px 16px; }
+        }
+        @media (max-width: 380px) {
+            #freemode-bar { bottom: calc(105px + env(safe-area-inset-bottom, 0px)); }
+            #btn-freemode { font-size: 10px; padding: 5px 14px; }
         }
 
         /* ── SLEEP BLOCKED POPUP ── */
@@ -306,6 +319,7 @@
             border-radius: 14px;
             background: rgba(0,0,0,0.35);
             backdrop-filter: blur(6px);
+            max-width: 90vw;
         }
         #sleep-blocked-popup.show {
             opacity: 1;
@@ -454,7 +468,7 @@
 
         /* ── Back button ── */
         #walkies-back {
-            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             pointer-events: all; cursor: pointer;
             background: var(--w-card);
             border: 1px solid var(--w-card-border);
@@ -490,6 +504,7 @@
             opacity: 0;
             transition: opacity 0.4s ease, transform 0.5s cubic-bezier(.22,1.2,.36,1);
             min-width: 300px;
+            max-width: 92vw;
             overflow: hidden;
         }
         #walkies-gameover::before {
@@ -614,7 +629,7 @@
 
         /* ── Tap hint ── */
         #walkies-tap-hint {
-            position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             font-size: 11px; font-weight: 400;
             color: var(--w-text-dim);
             letter-spacing: 1.5px;
@@ -656,16 +671,16 @@
             #walkies-dist .w-dist-unit { font-size: 11px; }
             #walkies-powerup-bar { top: 50px; left: 10px; gap: 6px; }
             .walkies-powerup-icon { width: 32px; height: 32px; font-size: 15px; border-radius: 10px; }
-            #walkies-back { padding: 6px 14px; font-size: 11px; bottom: 16px; }
-            #walkies-gameover { padding: 28px 22px 24px; min-width: 260px; border-radius: 24px; }
+            #walkies-back { padding: 6px 14px; font-size: 11px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+            #walkies-gameover { padding: 28px 22px 24px; min-width: auto; max-width: 90vw; border-radius: 24px; }
             .go-capy-icon { font-size: 38px; }
             #walkies-gameover h2 { font-size: 22px; letter-spacing: 3px; }
             #walkies-gameover .go-sub { font-size: 10px; margin-bottom: 16px; }
-            .go-stat-card { padding: 10px 8px 8px; min-width: 90px; }
+            .go-stat-card { padding: 10px 8px 8px; min-width: 80px; }
             .go-stat-card .go-stat-value { font-size: 20px; }
             #walkies-retry { padding: 12px 20px; font-size: 14px; }
             #walkies-home { padding: 10px 20px; font-size: 12px; }
-            #walkies-tap-hint { font-size: 10px; bottom: 18px; padding: 5px 14px; }
+            #walkies-tap-hint { font-size: 10px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); padding: 5px 14px; }
         }
 
         /* ── Walkies Screen Flash Overlay ── */
@@ -831,7 +846,7 @@
         #fetch-score .f-icon { margin-right: 6px; }
 
         #fetch-hint {
-            position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             color: var(--f-text-dim);
             font-size: 13px; font-weight: 400; letter-spacing: 0.5px;
             background: var(--f-card);
@@ -846,7 +861,7 @@
 
         /* Power meter */
         #fetch-power-wrap {
-            position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: calc(120px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             width: 160px; height: 14px;
             background: rgba(0,0,0,0.35);
             border-radius: 7px;
@@ -866,7 +881,7 @@
 
         /* Aim direction indicator */
         #fetch-aim-wrap {
-            position: absolute; bottom: 140px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: calc(140px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             width: 40px; height: 40px;
             pointer-events: none;
             opacity: 0;
@@ -885,7 +900,7 @@
         }
 
         #fetch-close {
-            position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+            position: absolute; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%);
             pointer-events: all; cursor: pointer;
             background: var(--f-card);
             border: 1px solid var(--f-card-border);
@@ -901,7 +916,7 @@
         #fetch-close:hover { background: rgba(255,255,255,0.18); color: var(--f-cream); }
 
         #fetch-sprint {
-            position: absolute; bottom: 90px; right: 28px;
+            position: absolute; bottom: calc(90px + env(safe-area-inset-bottom, 0px)); right: 28px;
             pointer-events: all; cursor: pointer;
             background: var(--f-card);
             border: 1px solid var(--f-card-border);
@@ -1044,11 +1059,11 @@
 
         @media (max-width: 600px) {
             #fetch-score { font-size: 18px; padding: 5px 16px; }
-            #fetch-hint { font-size: 10px; bottom: 70px; padding: 5px 14px; }
-            #fetch-close { padding: 6px 14px; font-size: 11px; bottom: 16px; }
-            #fetch-sprint { width: 50px; height: 50px; font-size: 18px; bottom: 74px; right: 16px; }
-            #fetch-power-wrap { width: 120px; bottom: 100px; }
-            #fetch-aim-wrap { bottom: 118px; }
+            #fetch-hint { font-size: 10px; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); padding: 5px 14px; }
+            #fetch-close { padding: 6px 14px; font-size: 11px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+            #fetch-sprint { width: 50px; height: 50px; font-size: 18px; bottom: calc(74px + env(safe-area-inset-bottom, 0px)); right: 16px; }
+            #fetch-power-wrap { width: 120px; bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+            #fetch-aim-wrap { bottom: calc(118px + env(safe-area-inset-bottom, 0px)); }
         }
 
         /* ═══════════════════════════════════════════════════════════
@@ -1406,22 +1421,25 @@
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
-            #fr-joystick-zone { bottom: 12px; left: 12px; width: 120px; height: 120px; }
+            #fr-exit { top: 44px; left: 10px; padding: 6px 10px; font-size: 12px; }
+            #fr-aura-bar { top: 44px; left: auto; right: 10px; transform: none; padding: 4px 12px; font-size: 14px; }
+            #fr-aura-bar-inner { width: 50px; }
+            #fr-combo { top: 84px; }
+            #fr-joystick-zone { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); left: 12px; width: 120px; height: 120px; }
             #fr-joystick-base { width: 100px; height: 100px; }
             #fr-joystick-stick { width: 36px; height: 36px; }
-            #fr-chat { width: 180px; bottom: 130px; left: 8px; }
-            #fr-interact { right: 8px; bottom: 12px; }
-            #fr-npc-target { right: 8px; bottom: 165px; }
-            .fr-choice-btn { padding: 6px 12px; font-size: 13px; }
-            #fr-aura-bar { padding: 4px 12px; font-size: 14px; }
-            #fr-aura-bar-inner { width: 60px; }
+            #fr-chat { width: 170px; bottom: calc(130px + env(safe-area-inset-bottom, 0px)); left: 8px; max-height: 120px; }
+            #fr-interact { right: 8px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+            #fr-npc-target { right: 8px; bottom: calc(165px + env(safe-area-inset-bottom, 0px)); }
+            .fr-choice-btn { padding: 6px 12px; font-size: 12px; }
+            #fr-event-banner { top: 100px; font-size: 14px; padding: 8px 18px; max-width: 90vw; }
         }
 
         /* ── Game Hub Popup ── */
         #fr-hub-popup {
             display: none;
             position: fixed;
-            bottom: 140px;
+            bottom: calc(140px + env(safe-area-inset-bottom, 0px));
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, rgba(20, 20, 40, 0.92), rgba(40, 20, 60, 0.92));
@@ -1432,6 +1450,7 @@
             color: #fff;
             backdrop-filter: blur(10px);
             z-index: 220;
+            max-width: 90vw;
             animation: fr-hub-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         #fr-hub-popup.visible { display: block; }
